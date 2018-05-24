@@ -157,10 +157,7 @@ Bool Check_For_Winner(char * Board) {
   /* To check if there's a winner, we need to check if there are any lines
     of four X's or O's on the board. To do this, we cycle through each
     element of the board. For each cell, we check if that cell is part of a
-    line of four in each of the 8 directions (N, NE, E, SE, S, SW, W, NW). It
-    should be noted that this check is done with resepct to the matrix
-    directions (increasing row is down) and now the board directions (where
-    increasing row number is up the board).
+    Vertical, Diagional (two possible), and Horizontal, line of four.
   */
   for(i = 0; i < N; i++) {
     for(j = 0; j < N; j++) {
@@ -173,10 +170,14 @@ Bool Check_For_Winner(char * Board) {
       if(Cell_Symbol == ' ')
         continue;
 
-      /*  North Check:
-        Here we check if the three cells in the North direction have the
-        same value as the current cell. This can only occur if there are
-        three Rows to the North of us.
+      /*  Vertical Check:
+        Here we check if the three cells above us have the same value as the
+        current cell.
+
+        A vertical line of four will always have a bottom-most element. This
+        means that if there is a Vertical line of four then there must be some
+        element on the board such that this element and the three elements above
+        it all contain the same symbol.
 
         This means that we can not be in Rows 0, 1, or 2.
       */
@@ -187,25 +188,35 @@ Bool Check_For_Winner(char * Board) {
            return 1;
       } // if(row > 2 &&
 
-      /*  North-East Check:
+      /*  Upward-Diagional Check:
         Here we check if the three cells in the North-East diagional direction
-        have the same value as the current cell. This can only occur if there are
-        three Rows to the North and 3 Columns to the Right.
+        (above and to the right) have the same value as the current cell.
 
-        This means that we can not be in Rows 0, 1, or 2. or Columns N-1, N-2,
-        or N-3.
+        A Uppward-Diagional line of four will always have some bottom left-most
+        element. This means that if there is a Upward-Diagional line of four
+        then there must be some element on the board such that this element and
+        the three elements in the North-East direction to it all contain the
+        same symbol.
+
+        This means that we can not be in Rows N-1, N-2, or N-3, or in Coluns
+        N-1, N-2, or N-3.
       */
-      if(row > 2 && col < ((N-1)-2) &&
-         Board[(i-1)*N+(j+1)] == Cell_Symbol &&
-         Board[(i-2)*N+(j+2)] == Cell_Symbol &&
-         Board[(i-3)*N+(j+3)] == Cell_Symbol){
+      if(row < ((N-1)-2) && col < ((N-1)-2) &&
+         Board[(i+1)*N+(j+1)] == Cell_Symbol &&
+         Board[(i+2)*N+(j+2)] == Cell_Symbol &&
+         Board[(i+3)*N+(j+3)] == Cell_Symbol){
            return 1;
-      } // if(row > 2 && col < ((N-1)-2) &&
+      } // if(row < ((N-1)-2) && col < ((N-1)-2) &&
 
-      /*  East Check:
-        Here we check if the three cells in the East direction have the
-        same value as the current cell. This can only occur if there are
-        three Columns to the Right.
+
+      /*  Horizontal Check:
+        Here we check if the three cells in the East direction (to our right)
+        have the same value as the current cell.
+
+        A Horizontal line of four will always have some left-most element. This
+        means that if there is a Horizontal line of four then there must be some
+        element on bht board such that this element and the three elements to
+        the right of it all contain the same symbol.
 
         This means that we can not be in Columns N-1, N-2, or N-3.
       */
@@ -216,78 +227,25 @@ Bool Check_For_Winner(char * Board) {
            return 1;
       } // if(col < ((N-1)-2) &&
 
-      /*  South-East Check:
+      /*  Downward-Diagional Check:
         Here we check if the three cells in the South-East diagional direction
-        have the same value as the current cell. This can only occur if there are
-        three Columns to the Right and and three Rows Below.
+        (below and to the right) have the same value as the current cell.
 
-        This means that we can not be in Rows N-1, N-2, or N-3 or in Columns
-        N-1, N-2, or N-3.
+        A Downward-Diagional line of four will always have some upper left-most
+        element. This means that if there is a diagional line of four then there
+        must be some element on the board such that this element and the three
+        elements in the South-East direction to it all contain the same symbol.
+
+        This means that we can not be in Rows 0, 1, or 2. or Columns N-1, N-2,
+        or N-3.
       */
-      if(row < ((N-1)-2) && col < ((N-1)-2) &&
-         Board[(i+1)*N+(j+1)] == Cell_Symbol &&
-         Board[(i+2)*N+(j+2)] == Cell_Symbol &&
-         Board[(i+3)*N+(j+3)] == Cell_Symbol){
+      if(row > 2 && col < ((N-1)-2) &&
+         Board[(i-1)*N+(j+1)] == Cell_Symbol &&
+         Board[(i-2)*N+(j+2)] == Cell_Symbol &&
+         Board[(i-3)*N+(j+3)] == Cell_Symbol){
            return 1;
-      } // if(row < ((N-1)-2) && col < ((N-1)-2) &&
-
-      /*  South Check:
-        Here we check if the three cells in the South direction have the
-        same value as the current cell. This can only occur if there are
-        three Rows Below.
-
-        This means that we can not be in Rows N-1, N-2, or N-3
-      */
-      if(row < ((N-1)-2) &&
-         Board[(i+1)*N+j] == Cell_Symbol &&
-         Board[(i+2)*N+j] == Cell_Symbol &&
-         Board[(i+3)*N+j] == Cell_Symbol){
-           return 1;
-      } // if(row < ((N-1)-2) &&
-
-      /*  South-West Check:
-        Here we check if the three cells in the South-West diagional direction
-        have the same value as the current cell. This can only occur if there are
-        three Rows Below and three Columns to the Left.
-
-        This means that we can not be in Rows N-1, N-2, or N-3 or in Columns 0,
-        1, or 2.
-      */
-      if(row < ((N-1)-2) && col > 2 &&
-         Board[(i+1)*N+(j-1)] == Cell_Symbol &&
-         Board[(i+2)*N+(j-2)] == Cell_Symbol &&
-         Board[(i+3)*N+(j-3)] == Cell_Symbol){
-           return 1;
-      } // if(row < ((N-1)-2) && col > 2 &&
-
-      /*  West Check:
-        Here we check if the three cells in the West direction have the
-        same value as the current cell. This can only occur if there are
-        three Rows to the South and three Columns to our Left.
-
-        This means that we can not be in Rows N-1, N-2, or N-3 or in Columns
-        0, 1, or 2.
-      */
-      if(col > 2 &&
-         Board[i*N+(j-1)] == Cell_Symbol &&
-         Board[i*N+(j-2)] == Cell_Symbol &&
-         Board[i*N+(j-3)] == Cell_Symbol){
-           return 1;
-      } // if(col > 2 &&
-
-      /*  North-West Check:
-        Here we check if the three cells in the North-West direction have the
-        same value as the current cell. This can only occur if there are three
-        Rows to the North and three Columns to the Left.
-
-        This means that we can not be in Rows 0, 1, or 2 or in Columns 0, 1, or 2.
-      */
-      if(col > 2 && row > 2 &&
-         Board[(i-1)*N+(j-1)] == Cell_Symbol &&
-         Board[(i-2)*N+(j-2)] == Cell_Symbol &&
-         Board[(i-3)*N+(j-3)] == Cell_Symbol){
-           return 1;
-      } // if(col > 2 && row > 2 &&
+      } // if(row > 2 && col < ((N-1)-2) &&
+      
     } // for(col = 0; col < N; col++) {
   } // for(row = 0; row < N; row++) {
 
