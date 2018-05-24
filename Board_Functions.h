@@ -1,5 +1,5 @@
-#if !defined(_BOARD_FUNCTIONS)
-#define _BOARD_FUNCTIONS
+#if !defined(_BOARD_FUNCTIONS_HEADER)
+#define _BOARD_FUNCTIOS_HEADER
 
 void Initialize_Board(char* Board, uByte* Stack_Height);
 char Get_Response(uByte* Stack_Height);

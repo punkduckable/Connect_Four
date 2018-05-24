@@ -1,3 +1,6 @@
+#if !defined(_BOARD_FUNCTIONS_SOURCE)
+#define _BOARD_FUNCTIONS_SOURCE
+
 void Initialize_Board(char* Board, uByte* Stack_Height) {
   // This function is used to initialize the board to a set of empty spaces
 
@@ -198,3 +201,5 @@ Bool Full_Board(uByte* Stack_Height) {
   } // for(i = 0; i < N; i++) {
   return Is_Full;
 } // Bool Full)Board(uByte* Stack_Height) {
+
+#endif
