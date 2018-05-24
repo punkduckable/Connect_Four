@@ -112,7 +112,7 @@ char Get_Response(uByte* Stack_Height) {
 
     // Make sure that selected column is not full
     if(Valid_Input && Stack_Height[Player_Input] > N) {
-      printf("Column %d is Full. Pick a different one \n",Player_Input);
+      printf("Column %d is Full. ",Player_Input);
       Stack_Height[Player_Input]--;
       Valid_Input = 0;
     } // if(Valid_Input && Stack_Height[Player_Input] >= N) {
@@ -129,7 +129,7 @@ char Get_Response(uByte* Stack_Height) {
 
 void Update_Board(char* Board, Byte Player, uByte Row, uByte Col) {
   char Symbol;
-  if(Player == 0)
+  if(Player == 1)
     Symbol = 'X';
   else
     Symbol = 'O';
@@ -245,7 +245,7 @@ Bool Check_For_Winner(char * Board) {
          Board[(i-3)*N+(j+3)] == Cell_Symbol){
            return 1;
       } // if(row > 2 && col < ((N-1)-2) &&
-      
+
     } // for(col = 0; col < N; col++) {
   } // for(row = 0; row < N; row++) {
 
