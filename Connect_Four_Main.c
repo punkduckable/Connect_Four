@@ -1,6 +1,7 @@
 #include "stdio.h"
 
-#define N 4
+// Board dimensions
+#define N 10
 
 // Type definitions
 typedef signed char Byte;

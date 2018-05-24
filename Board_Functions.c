@@ -23,7 +23,7 @@ char Get_Response(uByte* Stack_Height) {
 
   do { // while(!Valid_Input)
     // Prompt
-    printf("Enter a column number (0,1...%d). 'q' to quit: ",(N-1));
+    printf("Enter a column number (0,1,...%d). 'q' to quit: ",(N-1));
 
     // Get Input
     scanf("%c",&Player_Input);
@@ -78,6 +78,8 @@ void Display_Board(char* Board) {
   // This function is used to display the board after each turn in the game
 
   int i,j;                          // Counter variables
+
+  // Display the board
   for(i = N-1; i >= 0; i--) {
     printf("| ");
     for(j = 0; j < N; j++) {
@@ -85,6 +87,13 @@ void Display_Board(char* Board) {
     } // for(j = 0; j < N; j++) {
     printf("|\n");
   } // for(i = 0; i < N; i++) {
+
+  // Display the column numbers on an extra row.
+  printf("  ");
+  for(i = 0; i < N; i++) {
+    printf("%d ",i);
+  }
+  printf("\n");
 } // void Display_Board(uByte Board) {
 
 Bool Check_For_Winner(char * Board) {
